@@ -46,6 +46,8 @@
             cbSortAlgo = new ComboBox();
             label2 = new Label();
             label1 = new Label();
+            textBox1 = new TextBox();
+            label8 = new Label();
             groupBox1.SuspendLayout();
             SuspendLayout();
             // 
@@ -106,7 +108,6 @@
             tbWertelisteAnzahl.Name = "tbWertelisteAnzahl";
             tbWertelisteAnzahl.Size = new Size(186, 23);
             tbWertelisteAnzahl.TabIndex = 13;
-            tbWertelisteAnzahl.TextChanged += tbWertelisteAnzahl_TextChanged;
             // 
             // label6
             // 
@@ -134,6 +135,7 @@
             btPerform.TabIndex = 10;
             btPerform.Text = "Ausführen";
             btPerform.UseVisualStyleBackColor = true;
+            btPerform.Click += btPerform_Click;
             // 
             // btClear
             // 
@@ -172,7 +174,6 @@
             label4.Size = new Size(59, 15);
             label4.TabIndex = 6;
             label4.Text = "Werteliste";
-            label4.Click += label4_Click;
             // 
             // label3
             // 
@@ -193,6 +194,7 @@
             // cbSearchAlgo
             // 
             cbSearchAlgo.FormattingEnabled = true;
+            cbSearchAlgo.Items.AddRange(new object[] { "Linear Search", "Binary Search" });
             cbSearchAlgo.Location = new Point(111, 51);
             cbSearchAlgo.Name = "cbSearchAlgo";
             cbSearchAlgo.Size = new Size(231, 23);
@@ -201,6 +203,7 @@
             // cbSortAlgo
             // 
             cbSortAlgo.FormattingEnabled = true;
+            cbSortAlgo.Items.AddRange(new object[] { "Bubble Sort", "optimierter Bubble Sort" });
             cbSortAlgo.Location = new Point(111, 22);
             cbSortAlgo.Name = "cbSortAlgo";
             cbSortAlgo.Size = new Size(231, 23);
@@ -224,17 +227,38 @@
             label1.TabIndex = 0;
             label1.Text = "Sortiermethode";
             // 
+            // textBox1
+            // 
+            textBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            textBox1.Location = new Point(12, 318);
+            textBox1.Multiline = true;
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(798, 218);
+            textBox1.TabIndex = 17;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new Point(18, 300);
+            label8.Name = "label8";
+            label8.Size = new Size(58, 15);
+            label8.TabIndex = 18;
+            label8.Text = "Protokoll:";
+            // 
             // frmMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(822, 548);
+            Controls.Add(label8);
+            Controls.Add(textBox1);
             Controls.Add(groupBox1);
             Name = "frmMain";
             Text = "Standard Codes C#";
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -257,5 +281,7 @@
         private TextBox tbWertelisteAnzahl;
         private Label label6;
         private Label label5;
+        private TextBox textBox1;
+        private Label label8;
     }
 }
