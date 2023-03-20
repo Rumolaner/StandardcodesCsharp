@@ -2,7 +2,7 @@
 {
     public static class SearchLinear
     {
-        public static int search(List<int> iList, int iSearch)
+        public static int Search(List<int> iList, int iSearch)
         {
             for (int i = 0; i < iList.Count; i++)
             {
@@ -18,7 +18,7 @@
 
     public static class SearchBinary
     {
-        public static int search(List<int> iList, int iSearch)
+        public static int Search(List<int> iList, int iSearch)
         {
             int start = 0, end = iList.Count - 1;
             while (start <= end)

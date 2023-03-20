@@ -12,8 +12,7 @@ namespace StandardcodesCsharp
 
         private void btAutoFill_Click(object sender, EventArgs e)
         {
-            int anzahl, von, bis;
-            if (!Int32.TryParse(tbWertelisteAnzahl.Text, out anzahl))
+            if (!Int32.TryParse(tbWertelisteAnzahl.Text, out int anzahl))
             {
                 MessageBox.Show(@"Bei 'Werteliste Anzahl' bitte eine Zahl zwischen 1 und 100 eingeben");
             }
@@ -21,17 +20,17 @@ namespace StandardcodesCsharp
             {
                 MessageBox.Show(@"Bei 'Werteliste Anzahl' bitte eine Zahl zwischen 1 und 100 eingeben");
             }
-            else if (!Int32.TryParse(tbWertelisteVon.Text, out von))
+            else if (!Int32.TryParse(tbWertelisteVon.Text, out int von))
             {
                 MessageBox.Show(@"Bei 'Werteliste Von' bitte eine Zahl eingeben");
             }
-            else if (!Int32.TryParse(tbWertelisteBis.Text, out bis))
+            else if (!Int32.TryParse(tbWertelisteBis.Text, out int bis))
             {
                 MessageBox.Show(@"Bei 'Werteliste Bis' bitte eine Zahl eingeben");
             }
             else
             {
-                Random rnd = new Random();
+                Random rnd = new();
                 string text = "";
                 for (int i = 0; i < anzahl; i++)
                 {
@@ -48,20 +47,23 @@ namespace StandardcodesCsharp
         private void btClear_Click(object sender, EventArgs e)
         {
             tbValuelist.Text = "";
-            tbValuelist.Text = "";
-            cbSearchAlgo.SelectedIndex = 0;
-            cbSortAlgo.SelectedIndex = 0;
+            tbSearchValue.Text = "";  
+            cbSearchAlgo.Text = "";
+            cbSortAlgo.Text = "";
         }
 
         private void btPerform_Click(object sender, EventArgs e)
         {
             bool sorted = false;
+            bool searched = false;
+
             if (cbSearchAlgo.Text == "" && cbSortAlgo.Text == "")
             {
                 MessageBox.Show("Bitte einen Sortier- oder Suchalgorithmus wählen");
             }
             else
             {
+                int result = -1;
                 List<int> iList = GetList(tbValuelist.Text);
                 if (cbSortAlgo.Text == "Bubble Sort")
                 {
@@ -82,18 +84,9 @@ namespace StandardcodesCsharp
 
                 if (cbSearchAlgo.Text == "Linear Search")
                 {
-                    int iSearch;
-                    Int32.TryParse(tbSearchValue.Text, out iSearch);
-                    int result = SearchLinear.search(iList, iSearch);
-
-                    if (result == -1)
-                    {
-                        MessageBox.Show("Der Suchwert konnte nicht gefunden werden");
-                    }
-                    else
-                    {
-                        MessageBox.Show("Suchwert gefunden an Stelle: " + result.ToString());
-                    }
+                    Int32.TryParse(tbSearchValue.Text, out int iSearch);
+                    result = SearchLinear.Search(iList, iSearch);
+                    searched = true;
                 }
                 else if (cbSearchAlgo.Text == "Binary Search")
                 {
@@ -103,23 +96,25 @@ namespace StandardcodesCsharp
                     }
                     else
                     {
-                        int iSearch;
-                        Int32.TryParse(tbSearchValue.Text, out iSearch);
-                        int result = SearchLinear.search(iList, iSearch);
+                        Int32.TryParse(tbSearchValue.Text, out int iSearch);
+                        result = SearchLinear.Search(iList, iSearch);
+                        searched = true;
 
-                        if (result == -1)
-                        {
-                            MessageBox.Show("Der Suchwert konnte nicht gefunden werden");
-                        }
-                        else
-                        {
-                            MessageBox.Show("Suchwert gefunden an Stelle: " + result.ToString());
-                        }
                     }
                 }
                 else if (cbSearchAlgo.Text != "")
                 {
                     MessageBox.Show("Unbekannter Suchalgorithmus");
+                    return;
+                }
+
+                if (result == -1 && searched)
+                {
+                    MessageBox.Show("Der Suchwert konnte nicht gefunden werden");
+                }
+                else if (searched)
+                {
+                    MessageBox.Show("Suchwert gefunden an Stelle: " + result.ToString());
                 }
             }
         }
@@ -130,8 +125,7 @@ namespace StandardcodesCsharp
             List<string> sList = text.Split(',').ToList();
             for (int i = 0; i < sList.Count; i++)
             {
-                int value;
-                Int32.TryParse(sList[i], out value);
+                Int32.TryParse(sList[i], out int value);
                 iList.Add(value);
             }
             return iList;
