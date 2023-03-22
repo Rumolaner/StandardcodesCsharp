@@ -9,8 +9,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="NLog" Version="5.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\SCCsharpSearch\SCCsharpSearch.csproj" />
     <ProjectReference Include="..\SCCsharpSort\SCCsharpSort.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

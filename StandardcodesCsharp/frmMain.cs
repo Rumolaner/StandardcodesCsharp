@@ -5,6 +5,8 @@ namespace StandardcodesCsharp
 {
     public partial class frmMain : Form
     {
+        private static readonly NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+
         public frmMain()
         {
             InitializeComponent();
@@ -56,6 +58,11 @@ namespace StandardcodesCsharp
         {
             bool sorted = false;
             bool searched = false;
+
+            logger.Debug("debug test");
+            logger.Warn("warn test");
+            logger.Error("error test");
+            logger.Info("Info test");
 
             if (cbSearchAlgo.Text == "" && cbSortAlgo.Text == "")
             {
