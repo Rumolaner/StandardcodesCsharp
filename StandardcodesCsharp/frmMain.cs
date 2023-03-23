@@ -14,21 +14,26 @@ namespace StandardcodesCsharp
 
         private void btAutoFill_Click(object sender, EventArgs e)
         {
+            string msg;
             if (!Int32.TryParse(tbWertelisteAnzahl.Text, out int anzahl))
             {
-                MessageBox.Show(@"Bei 'Werteliste Anzahl' bitte eine Zahl zwischen 1 und 100 eingeben");
+                msg = "Bei 'Werteliste Anzahl' bitte eine Zahl zwischen 1 und 100 eingeben";
+                MessageBox.Show(msg);
             }
             else if (anzahl < 1 || anzahl > 100)
             {
-                MessageBox.Show(@"Bei 'Werteliste Anzahl' bitte eine Zahl zwischen 1 und 100 eingeben");
+                msg = "Bei 'Werteliste Anzahl' bitte eine Zahl zwischen 1 und 100 eingeben";
+                MessageBox.Show(msg);
             }
             else if (!Int32.TryParse(tbWertelisteVon.Text, out int von))
             {
-                MessageBox.Show(@"Bei 'Werteliste Von' bitte eine Zahl eingeben");
+                msg = "Bei 'Werteliste Von' bitte eine Zahl eingeben";
+                MessageBox.Show(msg);
             }
             else if (!Int32.TryParse(tbWertelisteBis.Text, out int bis))
             {
-                MessageBox.Show(@"Bei 'Werteliste Bis' bitte eine Zahl eingeben");
+                msg = "Bei 'Werteliste Bis' bitte eine Zahl eingeben";
+                MessageBox.Show(msg);
             }
             else
             {
@@ -56,17 +61,21 @@ namespace StandardcodesCsharp
 
         private void btPerform_Click(object sender, EventArgs e)
         {
+            string msg;
             bool sorted = false;
             bool searched = false;
 
-            logger.Debug("debug test");
-            logger.Warn("warn test");
-            logger.Error("error test");
-            logger.Info("Info test");
+            logger.Info("Start process...");
+            logger.Info("Value list: " + tbValuelist.Text);
+            logger.Info("Sort algorithms: " + cbSortAlgo.Text);
+            logger.Info("Search algorithms: " + cbSearchAlgo.Text);
+            logger.Info("Search value: " + tbSearchValue.Text);
 
             if (cbSearchAlgo.Text == "" && cbSortAlgo.Text == "")
             {
-                MessageBox.Show("Bitte einen Sortier- oder Suchalgorithmus wählen");
+                msg = "Bitte einen Sortier- oder Suchalgorithmus wählen";
+                MessageBox.Show(msg);
+                logger.Info(msg);
             }
             else
             {
@@ -86,7 +95,9 @@ namespace StandardcodesCsharp
                 }
                 else if (cbSortAlgo.Text != "")
                 {
-                    MessageBox.Show("Unbekannter Sortieralgorithmus");
+                    msg = "Unbekannter Sortieralgorithmus";
+                    MessageBox.Show(msg);
+                    logger.Info(msg);
                 }
 
                 if (cbSearchAlgo.Text == "Linear Search")
@@ -99,29 +110,37 @@ namespace StandardcodesCsharp
                 {
                     if (!sorted)
                     {
-                        MessageBox.Show("Binary Search benötigt eine sortierte Liste. Bitte einen Sortieralgorithmus wählen");
+                        msg = "Binary Search benötigt eine sortierte Liste. Bitte einen Sortieralgorithmus wählen";
+                        MessageBox.Show(msg);
+                        logger.Info(msg);
                     }
                     else
                     {
                         Int32.TryParse(tbSearchValue.Text, out int iSearch);
-                        result = SearchLinear.Search(iList, iSearch);
+                        result = SearchBinary.Search(iList, iSearch);
                         searched = true;
 
                     }
                 }
                 else if (cbSearchAlgo.Text != "")
                 {
-                    MessageBox.Show("Unbekannter Suchalgorithmus");
+                    msg = "Unbekannter Suchalgorithmus";
+                    MessageBox.Show(msg);
+                    logger.Info(msg);
                     return;
                 }
 
                 if (result == -1 && searched)
                 {
-                    MessageBox.Show("Der Suchwert konnte nicht gefunden werden");
+                    msg = "Der Suchwert konnte nicht gefunden werden";
+                    MessageBox.Show(msg);
+                    logger.Info(msg);
                 }
                 else if (searched)
                 {
-                    MessageBox.Show("Suchwert gefunden an Stelle: " + result.ToString());
+                    msg = "Suchwert gefunden an Stelle: " + result.ToString();
+                    MessageBox.Show(msg);
+                    logger.Info(msg);
                 }
             }
         }
