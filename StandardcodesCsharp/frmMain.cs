@@ -1,3 +1,4 @@
+using NLog;
 using SCCsharpSort;
 using SCCsharpSearch;
 
@@ -5,7 +6,7 @@ namespace StandardcodesCsharp
 {
     public partial class frmMain : Form
     {
-        private static readonly NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
         public frmMain()
         {
@@ -65,17 +66,17 @@ namespace StandardcodesCsharp
             bool sorted = false;
             bool searched = false;
 
-            logger.Info("Start process...");
-            logger.Info("Value list: " + tbValuelist.Text);
-            logger.Info("Sort algorithms: " + cbSortAlgo.Text);
-            logger.Info("Search algorithms: " + cbSearchAlgo.Text);
-            logger.Info("Search value: " + tbSearchValue.Text);
+            Logger.Info("Start process...");
+            Logger.Info("Value list: " + tbValuelist.Text);
+            Logger.Info("Sort algorithms: " + cbSortAlgo.Text);
+            Logger.Info("Search algorithms: " + cbSearchAlgo.Text);
+            Logger.Info("Search value: " + tbSearchValue.Text);
 
             if (cbSearchAlgo.Text == "" && cbSortAlgo.Text == "")
             {
                 msg = "Bitte einen Sortier- oder Suchalgorithmus wählen";
                 MessageBox.Show(msg);
-                logger.Info(msg);
+                Logger.Info(msg);
             }
             else
             {
@@ -105,16 +106,24 @@ namespace StandardcodesCsharp
                     tbValuelist.Text = string.Join(",", iList);
                     sorted = true;
                 }
+                else if (cbSortAlgo.Text == "Heap Sort")
+                {
+                    iList = SortHeap.Sort(iList);
+                    tbValuelist.Text = string.Join(",", iList);
+                    sorted = true;
+                }
                 else if (cbSortAlgo.Text != "")
                 {
                     msg = "Unbekannter Sortieralgorithmus";
                     MessageBox.Show(msg);
-                    logger.Info(msg);
+                    Logger.Info(msg);
                 }
 
                 if (cbSearchAlgo.Text == "Linear Search")
                 {
-                    Int32.TryParse(tbSearchValue.Text, out int iSearch);
+                    if (!Int32.TryParse(tbSearchValue.Text, out int iSearch))
+                        Logger.Info("Value '" + iSearch + "' not a number. setting 0");
+
                     result = SearchLinear.Search(iList, iSearch);
                     searched = true;
                 }
@@ -124,11 +133,12 @@ namespace StandardcodesCsharp
                     {
                         msg = "Binary Search benötigt eine sortierte Liste. Bitte einen Sortieralgorithmus wählen";
                         MessageBox.Show(msg);
-                        logger.Info(msg);
+                        Logger.Info(msg);
                     }
                     else
                     {
-                        Int32.TryParse(tbSearchValue.Text, out int iSearch);
+                        if (!Int32.TryParse(tbSearchValue.Text, out int iSearch))
+                            Logger.Info("Value '" + iSearch + "' not a number. setting 0");
                         result = SearchBinary.Search(iList, iSearch);
                         searched = true;
 
@@ -138,7 +148,7 @@ namespace StandardcodesCsharp
                 {
                     msg = "Unbekannter Suchalgorithmus";
                     MessageBox.Show(msg);
-                    logger.Info(msg);
+                    Logger.Info(msg);
                     return;
                 }
 
@@ -146,24 +156,25 @@ namespace StandardcodesCsharp
                 {
                     msg = "Der Suchwert konnte nicht gefunden werden";
                     MessageBox.Show(msg);
-                    logger.Info(msg);
+                    Logger.Info(msg);
                 }
                 else if (searched)
                 {
                     msg = "Suchwert gefunden an Stelle: " + result.ToString();
                     MessageBox.Show(msg);
-                    logger.Info(msg);
+                    Logger.Info(msg);
                 }
             }
         }
 
         private static List<int> GetList(string text)
         {
-            List<int> iList = new List<int>();
+            List<int> iList = new();
             List<string> sList = text.Split(',').ToList();
             for (int i = 0; i < sList.Count; i++)
             {
-                Int32.TryParse(sList[i], out int value);
+                if (!Int32.TryParse(sList[i], out int value))
+                    Logger.Info("Value '" + sList[i] + "' not a number. setting 0");
                 iList.Add(value);
             }
             return iList;
