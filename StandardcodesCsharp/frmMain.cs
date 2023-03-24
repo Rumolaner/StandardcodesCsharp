@@ -54,7 +54,7 @@ namespace StandardcodesCsharp
         private void btClear_Click(object sender, EventArgs e)
         {
             tbValuelist.Text = "";
-            tbSearchValue.Text = "";  
+            tbSearchValue.Text = "";
             cbSearchAlgo.Text = "";
             cbSortAlgo.Text = "";
         }
@@ -90,6 +90,12 @@ namespace StandardcodesCsharp
                 else if (cbSortAlgo.Text == "optimierter Bubble Sort")
                 {
                     iList = SortBubbleOpt.Sort(iList);
+                    tbValuelist.Text = string.Join(",", iList);
+                    sorted = true;
+                }
+                else if (cbSortAlgo.Text == "Selection Sort")
+                {
+                    iList = SortSelect.Sort(iList);
                     tbValuelist.Text = string.Join(",", iList);
                     sorted = true;
                 }
