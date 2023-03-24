@@ -99,4 +99,58 @@ namespace SCCsharpSort
             return iList;
         }
     }
+
+    public static class SortInsert
+    {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
+        public static List<int> Sort(List<int> iList)
+        {
+            Logger.Info("Start insertion sort");
+
+            for (int i = 0; i < iList.Count-1; i++)
+            {
+                Logger.Info("Outer loop Iteration " + (i + 1).ToString());
+                int j = i + 1;
+                int value = iList[j];
+                Logger.Info("Finding insertion position for " + value.ToString());
+                while (j > 0 && iList[j - 1] < value)
+                {
+                    Logger.Info("shifting right " + iList[j-1].ToString());
+                    iList[j] = iList[j - 1];
+                    j--;
+                }
+
+                iList[j] = value;
+            }
+/*            int temp;
+
+            for (int i = 0; i < iList.Count - 1; i++)
+            {
+                Logger.Info("Outer loop Iteration " + (i + 1).ToString());
+                temp = i + 1;
+
+                for (int j = i + 1; j < iList.Count; j++)
+                {
+                    Logger.Info("Inner loop Iteration " + j.ToString());
+                    if (iList[j] > iList[temp])
+                    {
+                        Logger.Info("New biggest number found " + j.ToString() + "/" + iList[j].ToString());
+                        temp = j;
+                    }
+
+                }
+
+                if (iList[i] < iList[temp])
+                {
+                    Logger.Info("Change " + i.ToString() + "/" + iList[i].ToString() + " with " + temp.ToString() + "/" + iList[temp].ToString());
+                    (iList[i], iList[temp]) = (iList[temp], iList[i]);
+                }
+
+            }*/
+
+            Logger.Info("End insertion sort");
+            return iList;
+        }
+    }
 }

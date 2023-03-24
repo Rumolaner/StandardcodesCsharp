@@ -99,6 +99,12 @@ namespace StandardcodesCsharp
                     tbValuelist.Text = string.Join(",", iList);
                     sorted = true;
                 }
+                else if (cbSortAlgo.Text == "Insertion Sort")
+                {
+                    iList = SortInsert.Sort(iList);
+                    tbValuelist.Text = string.Join(",", iList);
+                    sorted = true;
+                }
                 else if (cbSortAlgo.Text != "")
                 {
                     msg = "Unbekannter Sortieralgorithmus";
