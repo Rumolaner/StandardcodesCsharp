@@ -135,8 +135,44 @@ namespace SCCsharpSort
 
         public static List<int> Heapify(List<int> iList, int start, int end)
         {
+            Logger.Info("Start value: " + start.ToString());
+            Logger.Info("End value: " + end.ToString());
             int parent = (end - 1) / 2;
-            int childL = 
+            Logger.Info("Parent: " + parent.ToString());
+
+            for (int i = parent; i >= start; i--)
+            {
+                int childL = (i + 1) * 2 - 1;
+                int childR = (i + 1) * 2;
+                int biggest = -1;
+                Logger.Info("Left child: " + childL.ToString());
+                Logger.Info("Right child: " + childR.ToString());
+ 
+                if (childR <= end && childR >= start)
+                {
+                    biggest = childR;
+                    Logger.Info("Biggest = ChildR: " + biggest.ToString());
+                }
+
+                if (childL <= end && childL >= start)
+                {
+                    if (biggest != childR || iList[biggest] < iList[childL])
+                    {
+                        biggest = childL;
+                        Logger.Info("Biggest = ChildL: " + biggest.ToString());
+                    }
+                }
+
+                if (biggest == childR || biggest == childL)
+                {
+                    Logger.Info("Biggest valid index: " + biggest.ToString());
+                    if (iList[biggest] > iList[i])
+                    {
+                        Logger.Info("change parent and biggest child: " + iList[i].ToString() + "/" + iList[biggest].ToString());
+                        (iList[biggest], iList[i]) = (iList[i], iList[biggest]);
+                    }
+                }
+            }
 
 
             return iList;
