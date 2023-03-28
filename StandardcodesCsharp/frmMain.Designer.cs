@@ -203,7 +203,7 @@
             // cbSortAlgo
             // 
             cbSortAlgo.FormattingEnabled = true;
-            cbSortAlgo.Items.AddRange(new object[] { "Bubble Sort", "optimierter Bubble Sort", "Selection Sort", "Insertion Sort", "Heap Sort", "Merge Sort" });
+            cbSortAlgo.Items.AddRange(new object[] { "Bubble Sort", "optimierter Bubble Sort", "Selection Sort", "Insertion Sort", "Heap Sort", "Merge Sort", "Tree Sort" });
             cbSortAlgo.Location = new Point(111, 22);
             cbSortAlgo.Name = "cbSortAlgo";
             cbSortAlgo.Size = new Size(231, 23);

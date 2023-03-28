@@ -1,5 +1,6 @@
 ﻿using NLog;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace SCCsharpSort
 {
@@ -109,7 +110,7 @@ namespace SCCsharpSort
         {
             Logger.Info("Start insertion sort");
 
-            for (int i = 0; i < iList.Count-1; i++)
+            for (int i = 0; i < iList.Count - 1; i++)
             {
                 Logger.Info("Outer loop Iteration " + (i + 1).ToString());
                 int j = i + 1;
@@ -117,7 +118,7 @@ namespace SCCsharpSort
                 Logger.Info("Finding insertion position for " + value.ToString());
                 while (j > 0 && iList[j - 1] < value)
                 {
-                    Logger.Info("shifting right " + iList[j-1].ToString());
+                    Logger.Info("shifting right " + iList[j - 1].ToString());
                     iList[j] = iList[j - 1];
                     j--;
                 }
@@ -149,7 +150,7 @@ namespace SCCsharpSort
                 Logger.Info("temp parent: " + i.ToString());
                 Logger.Info("Left child: " + childL.ToString());
                 Logger.Info("Right child: " + childR.ToString());
- 
+
                 if (childR <= end && childR >= start)
                 {
                     biggest = childR;
@@ -185,14 +186,14 @@ namespace SCCsharpSort
         {
             Logger.Info("Start heap sort");
             Logger.Info("Initialise Heap");
-            iList = Heapify(iList, 0, iList.Count-1);
+            iList = Heapify(iList, 0, iList.Count - 1);
 
             Logger.Info("start iteration");
-            for (int i = iList.Count-1; i > 0; i--)
+            for (int i = iList.Count - 1; i > 0; i--)
             {
                 Logger.Info("Loop Iteration " + (i + 1).ToString());
                 (iList[i], iList[0]) = (iList[0], iList[i]);
-                iList = Heapify(iList, 0, i-1);
+                iList = Heapify(iList, 0, i - 1);
             }
 
             Logger.Info("End insertion sort");
@@ -249,37 +250,104 @@ namespace SCCsharpSort
                     iLinks.RemoveAt(0);
                 }
 
-                while (iRechts.Count > 0) 
+                while (iRechts.Count > 0)
                 {
                     Logger.Info("add another element from right list");
                     iRet.Add(iRechts[0]);
                     iRechts.RemoveAt(0);
                 }
 
+                Logger.Info("End merge sort");
                 return iRet;
             }
+        }
+    }
 
-/*
+    public class SortTreeNode
+    {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
-            for (int i = 0; i < iList.Count - 1; i++)
+        private readonly int value;
+        private SortTreeNode ?left;
+        private SortTreeNode ?right;
+
+        public SortTreeNode(int value)
+        {
+            this.value = value;
+        }
+
+        public void Insert(int value)
+        {
+            Logger.Info("Insert new value " + value.ToString());
+
+            if (value < this.value)
             {
-                Logger.Info("Outer loop Iteration " + (i + 1).ToString());
-                int j = i + 1;
-                int value = iList[j];
-                Logger.Info("Finding insertion position for " + value.ToString());
-                while (j > 0 && iList[j - 1] < value)
+                Logger.Info("value is smaller than node value");
+                if (this.left == null) 
                 {
-                    Logger.Info("shifting right " + iList[j - 1].ToString());
-                    iList[j] = iList[j - 1];
-                    j--;
+                    Logger.Info("Left node is null, create new node");
+                    this.left = new SortTreeNode(value);
                 }
+                else
+                {
+                    Logger.Info("left node exists, insert into left node");
+                    this.left.Insert(value);
+                }
+            }
+            else
+            {
+                Logger.Info("value is bigger or equal than node value");
+                if (this.right == null)
+                {
+                    Logger.Info("right node is null, create new node");
+                    this.right = new SortTreeNode(value);
+                }
+                else
+                {
+                    Logger.Info("right node exists, insert into right node");
+                    this.right.Insert(value);
+                }
+            }
+        }
 
-                iList[j] = value;
+        public List<int> Traverse(List<int> iList)
+        {
+            if (this.left != null)
+            {
+                iList = this.left.Traverse(iList);
+            }
+            iList.Add(this.value);
+            if (this.right != null)
+            {
+                iList = this.right.Traverse(iList);
             }
 
-            Logger.Info("End insertion sort");
-            return iList; */
+            return iList;
+        }
+    }
 
+    public static class SortTree
+    {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
+        public static List<int> Sort(List<int> iList)
+        {
+            Logger.Info("Start tree sort");
+
+            SortTreeNode node = new (iList[0]);
+
+            for (int i = 1; i < iList.Count; i++)
+            {
+                node.Insert(iList[i]);
+            }
+
+            Logger.Info("End tree sort");
+
+            List<int> iRet = new();
+
+            iRet = node.Traverse(iRet);
+
+            return iRet;
         }
     }
 }

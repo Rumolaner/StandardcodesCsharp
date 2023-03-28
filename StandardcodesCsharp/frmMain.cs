@@ -118,6 +118,12 @@ namespace StandardcodesCsharp
                     tbValuelist.Text = string.Join(",", iList);
                     sorted = true;
                 }
+                else if (cbSortAlgo.Text == "Tree Sort")
+                {
+                    iList = SortTree.Sort(iList);
+                    tbValuelist.Text = string.Join(",", iList);
+                    sorted = true;
+                }
                 else if (cbSortAlgo.Text != "")
                 {
                     msg = "Unbekannter Sortieralgorithmus";
