@@ -350,4 +350,78 @@ namespace SCCsharpSort
             return iRet;
         }
     }
+
+    public static class SortQuick
+    {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
+        public static int QSTeile(ref List<int> iList, int iStart, int iEnd)
+        {
+            int pivot = iList[iEnd];
+            Logger.Info("pivot: " + pivot.ToString());
+            int i = iStart, j = iEnd - 1;
+            Logger.Info("start: " + iStart.ToString());
+            Logger.Info("end: " + iEnd.ToString());
+
+            while (i < j)
+            {
+                Logger.Info("New loop: i = " + i.ToString() + ", j = " + j.ToString());
+                while (i < j && iList[i] <= pivot)
+                {
+                    i++;
+                }
+
+                while (j > i && iList[j] > pivot)
+                {
+                    j--;
+                }
+
+                Logger.Info("after changing i and j: i = " + i.ToString() + ", j = " + j.ToString());
+                if (iList[i] > iList[j])
+                {
+                    Logger.Info("changing elements of i an j: i = " + iList[i].ToString() + ", j = " + iList[j].ToString());
+                    (iList[i], iList[j]) = (iList[j], iList[i]);
+                }
+            }
+
+            if (iList[i] > pivot)
+            {
+                Logger.Info("changing element of i and pivot: i = " + iList[i].ToString() + ", pivot = " + iList[iEnd].ToString());
+                (iList[i], iList[iEnd]) = (iList[iEnd], iList[i]);
+            }
+            else
+            {
+                Logger.Info("element of i is highest value");
+                i = iEnd;
+            }
+
+            return i;
+        }
+
+        public static List<int> Sort(List<int> iList, int iStart = 0, int iEnd = -1)
+        {
+            Logger.Info("Start quick sort");
+
+            if (iEnd == -1)
+            {
+                Logger.Info("1st call of Sort, set iEnd = iList.Count");
+                iEnd = iList.Count - 1;
+            }
+
+            if (iStart < iEnd)
+            {
+                Logger.Info("There's something to sort");
+                int iTeiler = SortQuick.QSTeile(ref iList, iStart, iEnd);
+                iList = Sort(iList, 0, iTeiler - 1);
+                iList = Sort(iList, iTeiler, iEnd);
+            }
+            else
+            {
+                Logger.Info("Nothing to sort left");
+            }
+
+            Logger.Info("End quick sort");
+            return iList;
+        }
+    }
 }

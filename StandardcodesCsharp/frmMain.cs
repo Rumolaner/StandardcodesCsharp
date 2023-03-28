@@ -124,6 +124,12 @@ namespace StandardcodesCsharp
                     tbValuelist.Text = string.Join(",", iList);
                     sorted = true;
                 }
+                else if (cbSortAlgo.Text == "Quick Sort")
+                {
+                    iList = SortQuick.Sort(iList);
+                    tbValuelist.Text = string.Join(",", iList);
+                    sorted = true;
+                }
                 else if (cbSortAlgo.Text != "")
                 {
                     msg = "Unbekannter Sortieralgorithmus";
