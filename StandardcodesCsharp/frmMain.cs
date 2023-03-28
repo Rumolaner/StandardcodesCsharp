@@ -112,6 +112,12 @@ namespace StandardcodesCsharp
                     tbValuelist.Text = string.Join(",", iList);
                     sorted = true;
                 }
+                else if (cbSortAlgo.Text == "Merge Sort")
+                {
+                    iList = SortMerge.Sort(iList);
+                    tbValuelist.Text = string.Join(",", iList);
+                    sorted = true;
+                }
                 else if (cbSortAlgo.Text != "")
                 {
                     msg = "Unbekannter Sortieralgorithmus";

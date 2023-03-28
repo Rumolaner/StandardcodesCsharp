@@ -1,4 +1,5 @@
 ﻿using NLog;
+using System.Linq;
 
 namespace SCCsharpSort
 {
@@ -196,6 +197,89 @@ namespace SCCsharpSort
 
             Logger.Info("End insertion sort");
             return iList;
+        }
+    }
+
+    public static class SortMerge
+    {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
+        public static List<int> Sort(List<int> iList)
+        {
+            Logger.Info("Start merge sort");
+
+            if (iList.Count == 1)
+            {
+                Logger.Info("List is 1 element, return list");
+                return iList;
+            }
+            else
+            {
+                Logger.Info("Split list in left list and right list");
+                List<int> iLinks = iList.GetRange(0, iList.Count / 2);
+                Logger.Info("left list has " + iLinks.Count + " elements");
+                List<int> iRechts = iList.GetRange(iList.Count / 2, iList.Count - iList.Count / 2);
+                Logger.Info("right list has " + iRechts.Count + " elements");
+                List<int> iRet = new();
+
+                iLinks = SortMerge.Sort(iLinks);
+                iRechts = SortMerge.Sort(iRechts);
+
+                Logger.Info("mergin left and right list");
+                while (iLinks.Count > 0 && iRechts.Count > 0)
+                {
+                    if (iLinks[0] > iRechts[0])
+                    {
+                        Logger.Info("1st element left list is bigger than 1st element right list");
+                        iRet.Add(iLinks[0]);
+                        iLinks.RemoveAt(0);
+                    }
+                    else
+                    {
+                        Logger.Info("1st element right list is bigger than 1st element left list");
+                        iRet.Add(iRechts[0]);
+                        iRechts.RemoveAt(0);
+                    }
+                }
+
+                while (iLinks.Count > 0)
+                {
+                    Logger.Info("add another element from left list");
+                    iRet.Add(iLinks[0]);
+                    iLinks.RemoveAt(0);
+                }
+
+                while (iRechts.Count > 0) 
+                {
+                    Logger.Info("add another element from right list");
+                    iRet.Add(iRechts[0]);
+                    iRechts.RemoveAt(0);
+                }
+
+                return iRet;
+            }
+
+/*
+
+            for (int i = 0; i < iList.Count - 1; i++)
+            {
+                Logger.Info("Outer loop Iteration " + (i + 1).ToString());
+                int j = i + 1;
+                int value = iList[j];
+                Logger.Info("Finding insertion position for " + value.ToString());
+                while (j > 0 && iList[j - 1] < value)
+                {
+                    Logger.Info("shifting right " + iList[j - 1].ToString());
+                    iList[j] = iList[j - 1];
+                    j--;
+                }
+
+                iList[j] = value;
+            }
+
+            Logger.Info("End insertion sort");
+            return iList; */
+
         }
     }
 }
