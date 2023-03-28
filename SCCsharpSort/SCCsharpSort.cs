@@ -145,6 +145,7 @@ namespace SCCsharpSort
                 int childL = (i + 1) * 2 - 1;
                 int childR = (i + 1) * 2;
                 int biggest = -1;
+                Logger.Info("temp parent: " + i.ToString());
                 Logger.Info("Left child: " + childL.ToString());
                 Logger.Info("Right child: " + childR.ToString());
  
@@ -170,11 +171,12 @@ namespace SCCsharpSort
                     {
                         Logger.Info("change parent and biggest child: " + iList[i].ToString() + "/" + iList[biggest].ToString());
                         (iList[biggest], iList[i]) = (iList[i], iList[biggest]);
+                        iList = Heapify(iList, biggest, end);
                     }
                 }
             }
 
-
+            Logger.Info("Heapify call end");
             return iList;
         }
 
@@ -189,7 +191,7 @@ namespace SCCsharpSort
             {
                 Logger.Info("Loop Iteration " + (i + 1).ToString());
                 (iList[i], iList[0]) = (iList[0], iList[i]);
-                iList = Heapify(iList, 0, i);
+                iList = Heapify(iList, 0, i-1);
             }
 
             Logger.Info("End insertion sort");
