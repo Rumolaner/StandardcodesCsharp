@@ -194,7 +194,7 @@
             // cbSearchAlgo
             // 
             cbSearchAlgo.FormattingEnabled = true;
-            cbSearchAlgo.Items.AddRange(new object[] { "Linear Search", "Binary Search" });
+            cbSearchAlgo.Items.AddRange(new object[] { "Linear Search", "Binary Search", "Interpolation Search" });
             cbSearchAlgo.Location = new Point(111, 51);
             cbSearchAlgo.Name = "cbSearchAlgo";
             cbSearchAlgo.Size = new Size(231, 23);

@@ -162,6 +162,23 @@ namespace StandardcodesCsharp
 
                     }
                 }
+                else if (cbSearchAlgo.Text == "Interpolation Search")
+                {
+                    if (!sorted)
+                    {
+                        msg = "Interpolation Search benötigt eine sortierte Liste. Bitte einen Sortieralgorithmus wählen";
+                        MessageBox.Show(msg);
+                        Logger.Info(msg);
+                    }
+                    else
+                    {
+                        if (!Int32.TryParse(tbSearchValue.Text, out int iSearch))
+                            Logger.Info("Value '" + iSearch + "' not a number. setting 0");
+                        result = SearchInterpol.Search(iList, iSearch);
+                        searched = true;
+
+                    }
+                }
                 else if (cbSearchAlgo.Text != "")
                 {
                     msg = "Unbekannter Suchalgorithmus";

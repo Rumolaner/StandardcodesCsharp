@@ -19,8 +19,8 @@ namespace SCCsharpSort
                     Logger.Info("Inner loop Iteration " + (j + 1).ToString());
                     if (iList[j] > iList[j + 1])
                     {
-                        Logger.Info("Change " + i.ToString() + "/" + iList[i].ToString() + " with " + j.ToString() + "/" + iList[j].ToString());
-                        (iList[j], iList[i]) = (iList[j], iList[i]);
+                        Logger.Info("Change " + (j+1).ToString() + "/" + iList[j].ToString() + " with " + j.ToString() + "/" + iList[j].ToString());
+                        (iList[j], iList[j+1]) = (iList[j+1], iList[j]);
                     }
                 }
             }
@@ -46,8 +46,8 @@ namespace SCCsharpSort
                     Logger.Info("Inner loop Iteration " + (j + 1).ToString());
                     if (iList[j] > iList[j + 1])
                     {
-                        Logger.Info("Change " + i.ToString() + "/" + iList[i].ToString() + " with " + j.ToString() + "/" + iList[j].ToString());
-                        (iList[i], iList[j]) = (iList[j], iList[j]);
+                        Logger.Info("Change " + (j+1).ToString() + "/" + iList[j+1].ToString() + " with " + j.ToString() + "/" + iList[j].ToString());
+                        (iList[j+1], iList[j]) = (iList[j], iList[j+1]);
                         switched = true;
                     }
                 }
