@@ -1,4 +1,7 @@
-﻿namespace SCCsharpSearch
+﻿using NLog;
+using NLog.Fluent;
+
+namespace SCCsharpSearch
 {
     public static class SearchLinear
     {
@@ -79,7 +82,7 @@
                 Logger.Info("Low: " + low.ToString());
                 Logger.Info("High: " + high.ToString());
 
-                int pos = low += ((high - low) * (iSearch - iList[low]) / (iList[high] - iList[low]  ));
+                int pos = low + ((high - low) * (iSearch - iList[low]) / (iList[high] - iList[low]  ));
 
                 Logger.Info("pos: " + pos.ToString());
 
@@ -102,6 +105,61 @@
 
             Logger.Info("End Interpolation Search without success");
             return -1;
+        }
+    }
+
+    public class BFSNode
+    {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
+        public int Value { get; set; }
+        public bool Visited { get; set;}
+        public List<BFSNode> Neighbors { get; set; }
+
+        public BFSNode(int value)
+        {
+            Logger.Info("Erstelle Knoten mit dem Wert " + value.ToString());
+            this.Value = value;
+            this.Visited = false;
+            this.Neighbors = new();
+        }
+
+        public void AddNeighbor(ref BFSNode neighbor)
+        {
+            Logger.Info("Verbinde zwei Nachbarn mit den Werten " + this.Value.ToString() + " und " + neighbor.Value.ToString());
+            neighbor.Neighbors.Add(this);
+            this.Neighbors.Add(neighbor);
+        }
+    }
+
+    public static class SearchBFS
+    {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
+        public static void Search(ref SCCsharpSearch.BFSNode StartNode)
+        {
+            Logger.Info("Starte Durchlauf mit Knoten " + StartNode.Value.ToString());
+            List<BFSNode> ToVisit = new() { StartNode };
+            
+            while(ToVisit.Count > 0)
+            {
+                SCCsharpSearch.BFSNode node = ToVisit[0];
+                Logger.Info("Durchgang mit Knoten " + node.Value.ToString());
+                node.Visited = true;
+                ToVisit.RemoveAt(0);
+                for(int i = 0; i < node.Neighbors.Count; i++)
+                {
+                    Logger.Info("Nachbarn prüfen ob besucht: " + node.Neighbors[i].Value.ToString());
+                    if (!node.Neighbors[i].Visited)
+                    {
+                        Logger.Info("Nachbar noch nicht besucht");
+                        ToVisit.Add(node.Neighbors[i]);
+                    } else
+                    {
+                        Logger.Info("Nachbar schon besucht");
+                    }
+                }
+            }
         }
     }
 }
