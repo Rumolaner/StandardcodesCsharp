@@ -1,5 +1,6 @@
 ﻿using NLog;
 using NLog.Fluent;
+using System.Xml.Linq;
 
 namespace SCCsharpSearch
 {
@@ -160,6 +161,54 @@ namespace SCCsharpSearch
                     }
                 }
             }
+        }
+    }
+
+    public static class SearchDFS
+    {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
+        public static void Search(ref SCCsharpSearch.BFSNode StartNode)
+        {
+            Logger.Info("Starte Durchlauf mit Knoten " + StartNode.Value.ToString());
+            Logger.Info("Setze aktuellen Knoten als visited");
+            StartNode.Visited = true;
+
+            for (int i = 0; i < StartNode.Neighbors.Count; ++i)
+            {
+                Logger.Info("Nachbarn prüfen ob besucht: " + StartNode.Neighbors[i].Value.ToString());
+                if (!StartNode.Neighbors[i].Visited)
+                {
+                    Logger.Info("Nachbar noch nicht besucht, besuche jetzt");
+                    SCCsharpSearch.BFSNode node = StartNode.Neighbors[i];
+                    SCCsharpSearch.SearchDFS.Search(ref node);
+                }
+                else
+                {
+                    Logger.Info("Nachbar schon besucht");
+                }
+            }
+
+/*            while (ToVisit.Count > 0)
+            {
+                SCCsharpSearch.BFSNode node = ToVisit[0];
+                Logger.Info("Durchgang mit Knoten " + node.Value.ToString());
+                node.Visited = true;
+                ToVisit.RemoveAt(0);
+                for (int i = 0; i < node.Neighbors.Count; i++)
+                {
+                    Logger.Info("Nachbarn prüfen ob besucht: " + node.Neighbors[i].Value.ToString());
+                    if (!node.Neighbors[i].Visited)
+                    {
+                        Logger.Info("Nachbar noch nicht besucht");
+                        ToVisit.Add(node.Neighbors[i]);
+                    }
+                    else
+                    {
+                        Logger.Info("Nachbar schon besucht");
+                    }
+                }
+            }*/
         }
     }
 }

@@ -205,6 +205,32 @@ namespace StandardcodesCsharp
 
                     SearchBFS.Search(ref node1);
                 }
+                else if (cbSearchAlgo.Text == "DFS")
+                {
+                    BFSNode node1 = new(iList[0]);
+                    BFSNode node2 = new(iList[1]);
+                    BFSNode node3 = new(iList[2]);
+                    BFSNode node4 = new(iList[3]);
+                    BFSNode node5 = new(iList[4]);
+                    BFSNode node6 = new(iList[5]);
+                    BFSNode node7 = new(iList[6]);
+                    BFSNode node8 = new(iList[7]);
+                    BFSNode node9 = new(iList[8]);
+                    BFSNode node10 = new(iList[9]);
+
+                    node1.AddNeighbor(ref node2);
+                    node1.AddNeighbor(ref node3);
+                    node1.AddNeighbor(ref node4);
+                    node2.AddNeighbor(ref node4);
+                    node2.AddNeighbor(ref node5);
+                    node4.AddNeighbor(ref node6);
+                    node4.AddNeighbor(ref node7);
+                    node7.AddNeighbor(ref node8);
+                    node7.AddNeighbor(ref node9);
+                    node9.AddNeighbor(ref node10);
+
+                    SearchDFS.Search(ref node1);
+                }
                 else if (cbSearchAlgo.Text != "")
                 {
                     msg = "Unbekannter Suchalgorithmus";
